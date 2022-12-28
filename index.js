@@ -23,21 +23,28 @@ app.get("/", function(req, res) {
 app.get("/api/hello", function(req, res) {
   res.json({ greeting: 'hello API' });
 });
-app.get("/api/:date", function(req, res) {
+app.get("/api/:date", (req, res) => {
   let utc, unix, date = req.params.date;
   if (+date == date){
     date = +date;
   }
   try {
-    utc = new Date(date).toString();
-    unix = (new Date(date).getTime()).toString()
+    utc = new Date(date).toUTCString();
+    unix = (new Date(date).getTime()).toString();
   } catch (error) {
     utc = "Invalid Date"
   }
   if (utc != "Invalid Date")
-    res.json({ utc: utc, unix: unix });
+    res.json({ unix: +unix, utc: utc });
   else
     res.json({error:"Invalid Date"});
+});
+
+app.get("/api", (req, res) => {
+  let
+  utc = new Date().toUTCString(),
+  unix = (new Date().getTime()).toString();
+  res.json({ unix: +unix, utc: utc });
 });
 
 
